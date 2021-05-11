@@ -1,7 +1,6 @@
-import { initProvider } from "../../redux/actions";
-
-import { useDispatch } from "react-redux";
 import { Button } from "decentraland-ui";
+import { useDispatch } from "react-redux";
+import { initProvider } from "../../redux/actions";
 
 const Connect = () => {
   const dispatch = useDispatch();

@@ -1,23 +1,27 @@
+import { actions } from "../actions";
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-import { actions } from "../actions";
 
 const initStorageState = {
-  balance: 0,
   pageLoading: false,
   provider: false,
   signer: false,
+  accounts: [],
+  balance: {},
 };
 
 const reducers = (state = initStorageState, action) => {
   switch (action.type) {
+    case actions.PAGE_LOADING:
+      return { ...state, pageLoading: !state.pageLoading };
+
     case actions.SET_PROVIDER:
+    case actions.SET_ACCOUNTS:
       return {
         ...state,
         ...action,
       };
-    case actions.PAGE_LOADING:
-      return { ...state, pageLoading: !state.pageLoading };
+
     default:
       return state;
   }
@@ -26,7 +30,7 @@ const reducers = (state = initStorageState, action) => {
 const createRootReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
-    ...reducers,
+    app: reducers,
   });
 
 export default createRootReducer;
