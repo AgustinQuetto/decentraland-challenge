@@ -12,6 +12,7 @@ const initStorageState: IinitStorageState = {
   },
   transfer: {
     from: "",
+    to: "",
   },
   alert: {
     open: false,

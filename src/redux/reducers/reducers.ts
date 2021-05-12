@@ -10,10 +10,13 @@ const reducers = (state = initStorageState, action) => {
     case actions.SET_MESSAGE:
       return { ...state, messages: { ...state.messages, ...action } };
     case actions.TRANSFER_TOGGLE_UPDATE:
-      const { account } = action;
+      const { account, to } = action;
       const transfer = state.transfer;
-      if (account) {
+      if (account !== undefined) {
         transfer.from = account;
+      }
+      if (to !== undefined) {
+        transfer.to = to;
       }
       return { ...state, transferOpen: !state.transferOpen, transfer };
     case actions.SET_HISTORY:

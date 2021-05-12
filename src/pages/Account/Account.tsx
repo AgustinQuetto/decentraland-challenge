@@ -37,8 +37,8 @@ const Account = ({ accounts, balances, history }: Props) => {
     dispatch(getBalance(address));
   }, [address, dispatch]);
 
-  const transfer = (account) => {
-    dispatch(transferToggle(account));
+  const transfer = (account, address) => {
+    dispatch(transferToggle(account, address));
   };
 
   return (
@@ -57,11 +57,14 @@ const Account = ({ accounts, balances, history }: Props) => {
                   </Badge>
                 </Row>
               </Column>
-              {accounts.includes(address) && (
+              {!accounts.includes(address) && (
                 <Column align="right">
                   <Row align="right">
-                    <Button basic onClick={() => transfer(address)}>
-                      Transfer
+                    <Button
+                      basic
+                      onClick={() => transfer(accounts[0], address)}
+                    >
+                      Transfer to this address
                     </Button>
                   </Row>
                 </Column>
@@ -96,7 +99,7 @@ const Account = ({ accounts, balances, history }: Props) => {
             </Table.Header>
             <Table.Body>
               {addressHistory.map((history: History, index) => (
-                <AccountTableRow index={index} history={history} />
+                <AccountTableRow index={index} history={history} key={index} />
               ))}
             </Table.Body>
           </Table>

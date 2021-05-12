@@ -86,8 +86,8 @@ function* getBalance(payload: any) {
 
 function* _transferToggle(payload: any) {
   try {
-    const { account } = payload;
-    yield put(transferToggleUpdate(account));
+    const { account, to } = payload;
+    yield put(transferToggleUpdate(account, to));
   } catch (e) {
     console.error(e);
   }

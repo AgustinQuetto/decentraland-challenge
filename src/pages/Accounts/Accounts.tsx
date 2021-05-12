@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getAccounts, transferToggle } from "../../redux/actions";
 import { Link } from "react-router-dom";
+
 //components
 import {
   Header,
@@ -51,7 +52,7 @@ const Accounts = ({ accounts, balances }: Props) => {
             <Row stacked>
               <Column>
                 <Row>
-                  <Header size="large">Your accounts</Header>
+                  <Header size="large">Your selected account</Header>
                 </Row>
               </Column>
               <Column align="right">

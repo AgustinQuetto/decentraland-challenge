@@ -26,6 +26,7 @@ export interface IinitStorageState {
   };
   transfer: {
     from: string;
+    to: string;
   };
   alert: {
     open: boolean;

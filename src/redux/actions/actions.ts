@@ -61,14 +61,16 @@ export const setHistory = (payload: any) => ({
   ...payload,
 });
 
-export const transferToggle = (account: string) => ({
+export const transferToggle = (account: string, to: string = "") => ({
   type: actions.TRANSFER_TOGGLE,
   account: account,
+  to: to,
 });
 
-export const transferToggleUpdate = (account?: string) => ({
+export const transferToggleUpdate = (account?: string, to?: string) => ({
   type: actions.TRANSFER_TOGGLE_UPDATE,
   account: account,
+  to: to,
 });
 
 export const sendTransaction = (payload: any) => ({

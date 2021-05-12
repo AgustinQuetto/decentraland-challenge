@@ -2,6 +2,7 @@ import "./Transfer.css";
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { transferToggle } from "../../redux/actions";
+import { useParams } from "react-router-dom";
 
 //components
 import { Modal, Button, Field } from "decentraland-ui";
@@ -46,8 +47,8 @@ const Transfer = ({ transferOpen, transfer, balances, messages }) => {
   }
 
   useEffect(() => {
-    setState({ ...defaultState });
-  }, [transferOpen]);
+    setState({ ...defaultState, ...transfer });
+  }, [transferOpen, transfer]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ const Transfer = ({ transferOpen, transfer, balances, messages }) => {
 
   const _toggle = () => {
     setState({ ...defaultState });
-    dispatch(transferToggle(""));
+    dispatch(transferToggle("", ""));
   };
 
   const send = () => {
