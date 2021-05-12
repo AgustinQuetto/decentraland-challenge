@@ -13,11 +13,11 @@ import { history } from "./redux/store";
 import { Navbar, Page, Footer, Loader } from "decentraland-ui";
 
 //pages
-import Connect from "./pages/Connect";
 import Account from "./pages/Account";
 import Accounts from "./pages/Accounts";
 
 //components
+import Connect from "./components/Connect";
 import Transfer from "./components/Transfer";
 import Alert from "./components/Alert";
 
