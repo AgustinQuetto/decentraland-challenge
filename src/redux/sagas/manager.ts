@@ -1,8 +1,15 @@
 import { ethers } from "ethers";
 import { push } from "connected-react-router";
-import { callGetAccounts } from "../calls";
+import calls from "../calls";
 import { put, call, select, takeLatest } from "redux-saga/effects";
-import { actions, setProvider, setAccounts, pageLoading } from "../actions";
+import {
+  actions,
+  setProvider,
+  setAccounts,
+  pageLoading,
+  setHistory,
+  setBalance,
+} from "../actions";
 
 const getAppStore = (state) => state.app;
 
@@ -24,21 +31,44 @@ function* initProvider() {
   }
 }
 
-function* getAccounts() {
+function* getAccounts(payload: any) {
   try {
+    const { includeBalances } = payload;
     const { provider } = yield select(getAppStore);
-    const accounts = yield call(callGetAccounts, provider);
+
+    const accounts = yield call(calls.GetAccounts, provider);
+
     yield put(setAccounts({ accounts }));
-    yield;
+
+    if (includeBalances) {
+      const balances = yield call(calls.GetBalances, provider, accounts);
+      const balancesByAddress = {};
+      balances.map((balance, i) => (balancesByAddress[accounts[i]] = balance));
+      yield put(setBalance({ balances: balancesByAddress }));
+    }
   } catch (e) {
     console.error(e);
   }
 }
 
-function* getBalance({ payload }: any) {
+function* getHistory(payload: any) {
   try {
-    console.log("listening get balance saga");
-    yield;
+    const { address, includeReceipt } = payload;
+    const history = yield call(calls.GetHistory, address, includeReceipt);
+    yield put(setHistory({ history: { [address]: history } }));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function* getBalance(payload: any) {
+  try {
+    console.log(payload);
+    const { address } = payload;
+    const { provider, balances } = yield select(getAppStore);
+    const balance = yield call(calls.GetBalance, provider, address);
+    balances[address] = balance;
+    yield put(setBalance({ balances }));
   } catch (e) {
     console.error(e);
   }
@@ -49,5 +79,7 @@ export default function* manager() {
   yield takeLatest(actions.SET_PROVIDER, setProvider);
   yield takeLatest(actions.GET_ACCOUNTS, getAccounts);
   yield takeLatest(actions.SET_ACCOUNTS, setAccounts);
+  yield takeLatest(actions.GET_HISTORY, getHistory);
+  yield takeLatest(actions.SET_HISTORY, setHistory);
   yield takeLatest(actions.GET_BALANCE, getBalance);
 }
