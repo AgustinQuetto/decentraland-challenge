@@ -24,7 +24,11 @@ const Transfer = ({ alert: { open, title, content, customClose } }: Props) => {
   return (
     <Modal size="small" open={open} closeIcon={<Close onClick={close} />}>
       <Modal.Header>{title}</Modal.Header>
-      <Modal.Content>{content}</Modal.Content>
+      <Modal.Content>
+        {content.split("\n").map((c) => (
+          <p>{c}</p>
+        ))}
+      </Modal.Content>
     </Modal>
   );
 };

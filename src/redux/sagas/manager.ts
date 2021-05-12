@@ -113,25 +113,25 @@ function* sendTransaction(payload: any) {
       amount,
     });
     if (transactionHash) {
+      const alertData = {
+        open: true,
+        title: "Congratulations!",
+        content: `You have transferred ${amount} ETH to account: ${to}.\nYour transaction id: ${transactionHash}.`,
+        customClose: () => {},
+      };
+
+      const messageData = {
+        transaction: {
+          status: true,
+          value: ``,
+        },
+      };
+
       yield all([
         put(transferToggleUpdate("")),
         put(_getBalance(from)),
-        put(
-          setMessage({
-            transaction: {
-              status: true,
-              value: ``,
-            },
-          })
-        ),
-        put(
-          setAlert({
-            open: true,
-            title: "Congratulations!",
-            content: `You have transferred ${amount} ETH to account ${to}.\nYour transaction id is ${transactionHash}.`,
-            customClose: () => {},
-          })
-        ),
+        put(setMessage(messageData)),
+        put(setAlert(alertData)),
       ]);
     }
   } catch (e) {
