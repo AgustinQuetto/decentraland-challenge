@@ -118,12 +118,17 @@ function* sendTransaction(payload: any) {
         setMessage({
           transaction: {
             status: true,
-            value: `Your transaction id is ${transactionHash}`,
+            value: ``,
           },
         })
       );
       yield put(
-        setAlert({ open: true, title: "lool", content: "sarasasasasa" })
+        setAlert({
+          open: true,
+          title: "Congratulations!",
+          content: `You have transferred ${amount} ETH to account ${to}.\nYour transaction id is ${transactionHash}.`,
+          customClose: () => {},
+        })
       );
     }
   } catch (e) {

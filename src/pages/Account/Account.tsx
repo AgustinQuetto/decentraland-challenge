@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getBalance, getHistory, transferToggle } from "../../redux/actions";
 import { connect, useDispatch } from "react-redux";
-import { History } from "../../types";
+import { History } from "../../interfaces";
 //components
 import {
   Header,

@@ -5,14 +5,20 @@ import { setAlert } from "../../redux/actions";
 import { Modal, Close } from "decentraland-ui";
 
 interface Props {
-  alert: { open: boolean; title: string; content: string };
+  alert: {
+    open: boolean;
+    title: string;
+    content: string;
+    customClose: () => {};
+  };
 }
 
-const Transfer = ({ alert: { open, title, content } }: Props) => {
+const Transfer = ({ alert: { open, title, content, customClose } }: Props) => {
   const dispatch = useDispatch();
 
   const close = () => {
     dispatch(setAlert({ open: false, title: "", content: "" }));
+    customClose();
   };
 
   return (

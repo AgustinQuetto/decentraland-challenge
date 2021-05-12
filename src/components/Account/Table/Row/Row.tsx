@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { History } from "../../../../types";
+import { History } from "../../../../interfaces";
 import { Table, Blockie } from "decentraland-ui";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
