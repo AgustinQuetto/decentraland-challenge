@@ -20,8 +20,7 @@ const getAppStore = (state) => state.app;
 function* initProvider() {
   try {
     if (window.ethereum) {
-      yield put(pageLoading());
-      yield call(window.ethereum.enable);
+      yield all([put(pageLoading()), call(window.ethereum.enable)]);
 
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
