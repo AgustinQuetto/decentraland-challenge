@@ -18,8 +18,10 @@ function* initProvider() {
     if (window.ethereum) {
       yield put(pageLoading());
       yield call(window.ethereum.enable);
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
+
       yield put(setProvider({ provider, signer }));
       yield put(pageLoading());
       yield put(push("/accounts"));
@@ -44,6 +46,7 @@ function* getAccounts(payload: any) {
       const balances = yield call(calls.GetBalances, provider, accounts);
       const balancesByAddress = {};
       balances.map((balance, i) => (balancesByAddress[accounts[i]] = balance));
+
       yield put(setBalance({ balances: balancesByAddress }));
     }
   } catch (e) {
@@ -55,6 +58,7 @@ function* getHistory(payload: any) {
   try {
     const { address, includeReceipt } = payload;
     const history = yield call(calls.GetHistory, address, includeReceipt);
+
     yield put(setHistory({ history: { [address]: history } }));
   } catch (e) {
     console.error(e);
@@ -66,8 +70,11 @@ function* getBalance(payload: any) {
     console.log(payload);
     const { address } = payload;
     const { provider, balances } = yield select(getAppStore);
+
     const balance = yield call(calls.GetBalance, provider, address);
+
     balances[address] = balance;
+
     yield put(setBalance({ balances }));
   } catch (e) {
     console.error(e);

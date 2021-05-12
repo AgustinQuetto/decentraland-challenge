@@ -2,9 +2,15 @@ table {
   table-layout: fixed;
   width: 100%;
 }
-
 td {
   padding-right: 1rem !important;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+td:hover {
+  overflow: visible;
+  word-break: break-all;
+  background-color: white;
+  cursor: pointer;
 }
