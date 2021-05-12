@@ -34,3 +34,9 @@ export interface IinitStorageState {
   };
   transferOpen: boolean;
 }
+
+export interface ITransactionData {
+  from: string;
+  to: string;
+  amount: string;
+}

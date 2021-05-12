@@ -1,28 +1,7 @@
 import { actions } from "../actions";
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-import { IinitStorageState } from "../../interfaces";
-
-const initStorageState: IinitStorageState = {
-  pageLoading: false,
-  provider: false,
-  signer: false,
-  accounts: [],
-  balances: {},
-  history: {},
-  messages: {
-    transaction: { status: true, value: "" },
-  },
-  transfer: {
-    from: "",
-  },
-  alert: {
-    open: false,
-    title: "",
-    content: "",
-  },
-  transferOpen: false,
-};
+import initStorageState from "./state";
 
 const reducers = (state = initStorageState, action) => {
   switch (action.type) {
@@ -44,7 +23,6 @@ const reducers = (state = initStorageState, action) => {
     case actions.SET_PROVIDER:
     case actions.SET_ACCOUNTS:
     case actions.SET_BALANCE:
-      console.log(action);
       return {
         ...state,
         ...action,
