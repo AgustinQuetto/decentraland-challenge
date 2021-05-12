@@ -1,7 +1,7 @@
 import calls from "../calls";
 import { ethers } from "ethers";
 import { push } from "connected-react-router";
-import { put, call, select, takeLatest } from "redux-saga/effects";
+import { put, all, call, select, takeLatest } from "redux-saga/effects";
 import {
   actions,
   setProvider,
@@ -26,9 +26,11 @@ function* initProvider() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
-      yield put(setProvider({ provider, signer }));
-      yield put(pageLoading());
-      yield put(push("/accounts"));
+      yield all([
+        put(setProvider({ provider, signer })),
+        put(pageLoading()),
+        put(push("/accounts")),
+      ]);
     } else {
       alert("This site needs Metamask. Please install.");
     }
@@ -112,24 +114,26 @@ function* sendTransaction(payload: any) {
       amount,
     });
     if (transactionHash) {
-      yield put(transferToggleUpdate(""));
-      yield put(_getBalance(from));
-      yield put(
-        setMessage({
-          transaction: {
-            status: true,
-            value: ``,
-          },
-        })
-      );
-      yield put(
-        setAlert({
-          open: true,
-          title: "Congratulations!",
-          content: `You have transferred ${amount} ETH to account ${to}.\nYour transaction id is ${transactionHash}.`,
-          customClose: () => {},
-        })
-      );
+      yield all([
+        put(transferToggleUpdate("")),
+        put(_getBalance(from)),
+        put(
+          setMessage({
+            transaction: {
+              status: true,
+              value: ``,
+            },
+          })
+        ),
+        put(
+          setAlert({
+            open: true,
+            title: "Congratulations!",
+            content: `You have transferred ${amount} ETH to account ${to}.\nYour transaction id is ${transactionHash}.`,
+            customClose: () => {},
+          })
+        ),
+      ]);
     }
   } catch (e) {
     console.error(e);
