@@ -8,6 +8,7 @@ export const GetAccounts = async (provider) => {
   const accounts = await provider.listAccounts();
   return accounts;
 };
+
 export const GetBalances = async (provider, addresses) => {
   const balancesPromises = addresses.map((address) =>
     GetBalance(provider, address)
@@ -15,11 +16,13 @@ export const GetBalances = async (provider, addresses) => {
   const balances = await Promise.all(balancesPromises);
   return balances;
 };
+
 export const GetBalance = async (provider, address) => {
   const _balance = await provider.getBalance(address);
   const balance = ethers.utils.formatEther(_balance);
   return balance;
 };
+
 export const GetHistory = async (address, includeReceipt) => {
   const provider = new ethers.providers.EtherscanProvider();
   const history = await provider.getHistory(address);
@@ -41,6 +44,7 @@ export const GetHistory = async (address, includeReceipt) => {
 
   return history;
 };
+
 export const GetTransactionReceipt = async (transactionHash) => {
   let provider = new ethers.providers.EtherscanProvider();
   const txReceipt = await provider.getTransactionReceipt(transactionHash);
@@ -48,4 +52,17 @@ export const GetTransactionReceipt = async (transactionHash) => {
     return txReceipt;
   }
   return {};
+};
+
+export const sendTransaction = async (provider, { from, to, amount }) => {
+  const params = [
+    {
+      from: from,
+      to: to,
+      value: ethers.utils.parseUnits(amount, "ether").toHexString(),
+    },
+  ];
+
+  const transactionHash = await provider.send("eth_sendTransaction", params);
+  return transactionHash;
 };

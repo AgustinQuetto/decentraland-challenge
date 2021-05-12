@@ -8,6 +8,11 @@ export const actions = {
   SET_ACCOUNTS: "SET_ACCOUNTS",
   GET_HISTORY: "GET_HISTORY",
   SET_HISTORY: "SET_HISTORY",
+  TRANSFER_TOGGLE: "TRANSFER_TOGGLE",
+  TRANSFER_TOGGLE_UPDATE: "TRANSFER_TOGGLE_UPDATE",
+  SEND_TRANSACTION: "SEND_TRANSACTION",
+  SET_MESSAGE: "SET_MESSAGE",
+  SET_ALERT: "SET_ALERT",
 };
 
 export const pageLoading = () => ({
@@ -53,5 +58,30 @@ export const getHistory = (address: string, includeReceipt?: boolean) => {
 
 export const setHistory = (payload: any) => ({
   type: actions.SET_HISTORY,
+  ...payload,
+});
+
+export const transferToggle = (account: string) => ({
+  type: actions.TRANSFER_TOGGLE,
+  account: account,
+});
+
+export const transferToggleUpdate = (account?: string) => ({
+  type: actions.TRANSFER_TOGGLE_UPDATE,
+  account: account,
+});
+
+export const sendTransaction = (payload: any) => ({
+  type: actions.SEND_TRANSACTION,
+  ...payload,
+});
+
+export const setMessage = (payload: any) => ({
+  type: actions.SET_MESSAGE,
+  ...payload,
+});
+
+export const setAlert = (payload: any) => ({
+  type: actions.SET_ALERT,
   ...payload,
 });

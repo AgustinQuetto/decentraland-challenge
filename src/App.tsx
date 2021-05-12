@@ -1,4 +1,4 @@
-import { useDispatch, connect } from "react-redux";
+import { connect } from "react-redux";
 
 //styles
 import "decentraland-ui/lib/dark-theme.css";
@@ -10,11 +10,16 @@ import { ConnectedRouter } from "connected-react-router";
 import { history } from "./redux/store";
 
 //components
-import { Navbar, Page, Footer, Center, Loader } from "decentraland-ui";
+import { Navbar, Page, Footer, Loader } from "decentraland-ui";
 
+//pages
 import Connect from "./pages/Connect";
 import Account from "./pages/Account";
 import Accounts from "./pages/Accounts";
+
+//components
+import Transfer from "./components/Transfer";
+import Alert from "./components/Alert";
 
 declare global {
   interface Window {
@@ -22,11 +27,15 @@ declare global {
   }
 }
 
-function App({ router, pageLoading, provider }) {
-  const dispatch = useDispatch();
+interface State {
+  router: any;
+  pageLoading: boolean;
+  provider: any;
+}
 
+function App({ router, pageLoading, provider }: State) {
   return (
-    <>
+    <ConnectedRouter history={history}>
       <Navbar activePage="marketplace" isFullscreen />
       <Page isFullscreen>
         {router.location.pathname !== "/" && !provider ? (
@@ -34,23 +43,23 @@ function App({ router, pageLoading, provider }) {
         ) : pageLoading ? (
           <Loader active={pageLoading} />
         ) : (
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path="/">
-                <Connect loading={pageLoading} />
-              </Route>
-              <Route exact path="/accounts">
-                <Accounts />
-              </Route>
-              <Route path="/account/:address">
-                <Account />
-              </Route>
-            </Switch>
-          </ConnectedRouter>
+          <Switch>
+            <Route exact path="/">
+              <Connect loading={pageLoading} />
+            </Route>
+            <Route exact path="/accounts">
+              <Accounts />
+            </Route>
+            <Route path="/account/:address">
+              <Account />
+            </Route>
+          </Switch>
         )}
       </Page>
       <Footer isFullscreen />
-    </>
+      <Transfer />
+      <Alert />
+    </ConnectedRouter>
   );
 }
 const mapStateToProps = ({ router, app: { pageLoading, provider } }) => {

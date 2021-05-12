@@ -1,7 +1,7 @@
 import "./Account.css";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getBalance, getHistory } from "../../redux/actions";
+import { getBalance, getHistory, transferToggle } from "../../redux/actions";
 import { connect, useDispatch } from "react-redux";
 import { History } from "../../types";
 //components
@@ -22,15 +22,12 @@ import {
 import AccountTableRow from "../../components/Account/Table/Row";
 
 interface Props {
-  provider?: any;
-  wallets?: any;
-  signer?: any;
   accounts: [string];
   balances: { [key: string]: string };
   history: { [key: string]: [History] };
 }
 
-const Account = ({ provider, signer, accounts, balances, history }: Props) => {
+const Account = ({ accounts, balances, history }: Props) => {
   const dispatch = useDispatch();
   const { address } = useParams();
   const addressHistory = history[address] || [];
@@ -38,7 +35,11 @@ const Account = ({ provider, signer, accounts, balances, history }: Props) => {
   useEffect(() => {
     dispatch(getHistory(address));
     dispatch(getBalance(address));
-  }, []);
+  }, [address, dispatch]);
+
+  const transfer = (account) => {
+    dispatch(transferToggle(account));
+  };
 
   return (
     <>
@@ -59,7 +60,9 @@ const Account = ({ provider, signer, accounts, balances, history }: Props) => {
               {accounts.includes(address) && (
                 <Column align="right">
                   <Row align="right">
-                    <Button basic>Transfer</Button>
+                    <Button basic onClick={() => transfer(address)}>
+                      Transfer
+                    </Button>
                   </Row>
                 </Column>
               )}
@@ -68,9 +71,6 @@ const Account = ({ provider, signer, accounts, balances, history }: Props) => {
         </Column>
       </Section>
       <Narrow>
-        {/* <Section>
-          <Empty height={240}>Extra info...</Empty>
-        </Section> */}
         <Section size="tiny">
           <Row height={32}>
             <Column>

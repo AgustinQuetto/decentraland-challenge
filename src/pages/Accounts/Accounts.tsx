@@ -1,7 +1,7 @@
 import "./Accounts.css";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { getAccounts } from "../../redux/actions";
+import { getAccounts, transferToggle } from "../../redux/actions";
 import { Link } from "react-router-dom";
 //components
 import {
@@ -19,10 +19,7 @@ import {
 } from "decentraland-ui";
 
 interface Props {
-  provider?: any;
-  wallets?: any;
-  signer?: any;
-  accounts: [];
+  accounts: [string];
   balances: { [key: string]: number };
 }
 
@@ -30,16 +27,20 @@ interface State {
   address?: string;
 }
 
-const Accounts = ({ provider, signer, accounts, balances }: Props) => {
+const Accounts = ({ accounts, balances }: Props) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<State>({});
 
   useEffect(() => {
     dispatch(getAccounts(true));
-  }, []);
+  }, [dispatch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const transfer = (account) => {
+    dispatch(transferToggle(account));
   };
 
   return (
@@ -80,20 +81,24 @@ const Accounts = ({ provider, signer, accounts, balances }: Props) => {
             {accounts.map((account, index) => {
               const balance = balances[account];
               return (
-                <Link to={`/account/${account}`} key={index}>
-                  <Card link>
-                    <Card.Content>
-                      <Card.Header>
-                        {account && <Blockie seed={account} scale={3} />}
-                        {account}
-                      </Card.Header>
-                      <Card.Meta>
-                        Balance {balance ? balance : <Loader active />} ETH
-                      </Card.Meta>
-                      <Button basic>Transfer</Button>
-                    </Card.Content>
-                  </Card>
-                </Link>
+                <div key={index}>
+                  <Link to={`/account/${account}`}>
+                    <Card link>
+                      <Card.Content>
+                        <Card.Header>
+                          {account && <Blockie seed={account} scale={3} />}
+                          {account}
+                        </Card.Header>
+                        <Card.Meta>
+                          Balance {balance ? balance : <Loader active />} ETH
+                        </Card.Meta>
+                      </Card.Content>
+                    </Card>
+                  </Link>
+                  <Button basic onClick={() => transfer(account)}>
+                    Transfer
+                  </Button>
+                </div>
               );
             })}
           </Card.Group>

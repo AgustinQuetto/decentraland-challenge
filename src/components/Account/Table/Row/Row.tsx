@@ -16,7 +16,6 @@ const Row = ({ index, history }: Props) => {
     gasPrice,
     gasLimit,
     blockHash,
-    method,
     blockNumber,
     timestamp,
     from,

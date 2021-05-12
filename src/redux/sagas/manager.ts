@@ -1,6 +1,6 @@
+import calls from "../calls";
 import { ethers } from "ethers";
 import { push } from "connected-react-router";
-import calls from "../calls";
 import { put, call, select, takeLatest } from "redux-saga/effects";
 import {
   actions,
@@ -9,6 +9,10 @@ import {
   pageLoading,
   setHistory,
   setBalance,
+  getBalance as _getBalance,
+  transferToggleUpdate,
+  setMessage,
+  setAlert,
 } from "../actions";
 
 const getAppStore = (state) => state.app;
@@ -29,7 +33,7 @@ function* initProvider() {
       alert("This site needs Metamask. Please install.");
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }
 
@@ -67,17 +71,64 @@ function* getHistory(payload: any) {
 
 function* getBalance(payload: any) {
   try {
-    console.log(payload);
     const { address } = payload;
     const { provider, balances } = yield select(getAppStore);
 
     const balance = yield call(calls.GetBalance, provider, address);
 
     balances[address] = balance;
-
     yield put(setBalance({ balances }));
   } catch (e) {
     console.error(e);
+  }
+}
+
+function* _transferToggle(payload: any) {
+  try {
+    const { account } = payload;
+    yield put(transferToggleUpdate(account));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function* sendTransaction(payload: any) {
+  try {
+    yield put(
+      setMessage({
+        transaction: {
+          status: false,
+          value: ``,
+        },
+      })
+    );
+    const { provider, transfer } = yield select(getAppStore);
+    const { from } = transfer;
+    const { to, amount } = payload;
+
+    const transactionHash = yield call(calls.sendTransaction, provider, {
+      from: from,
+      to,
+      amount,
+    });
+    if (transactionHash) {
+      yield put(transferToggleUpdate(""));
+      yield put(_getBalance(from));
+      yield put(
+        setMessage({
+          transaction: {
+            status: true,
+            value: `Your transaction id is ${transactionHash}`,
+          },
+        })
+      );
+      yield put(
+        setAlert({ open: true, title: "lool", content: "sarasasasasa" })
+      );
+    }
+  } catch (e) {
+    console.error(e);
+    yield put(setMessage({ transaction: { status: false, value: e.message } }));
   }
 }
 
@@ -89,4 +140,6 @@ export default function* manager() {
   yield takeLatest(actions.GET_HISTORY, getHistory);
   yield takeLatest(actions.SET_HISTORY, setHistory);
   yield takeLatest(actions.GET_BALANCE, getBalance);
+  yield takeLatest(actions.TRANSFER_TOGGLE, _transferToggle);
+  yield takeLatest(actions.SEND_TRANSACTION, sendTransaction);
 }
