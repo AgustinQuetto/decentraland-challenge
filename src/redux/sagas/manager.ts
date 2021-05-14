@@ -49,8 +49,11 @@ function* getAccounts(payload: any) {
 
     yield put(setAccounts({ accounts }));
 
+    //includes balances if required
     if (includeBalances) {
       const balances = yield call(calls.GetBalances, provider, accounts);
+
+      //Create an object mapped with the account ID to avoid search iterations in rendering
       const balancesByAddress = {};
       balances.map((balance, i) => (balancesByAddress[accounts[i]] = balance));
 
@@ -118,6 +121,8 @@ function* sendTransaction(payload: any) {
       to,
       amount,
     });
+
+    //Transaction success
     if (transactionHash) {
       const alertData = {
         open: true,

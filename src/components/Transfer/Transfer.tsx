@@ -2,7 +2,6 @@ import "./Transfer.css";
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { transferToggle } from "../../redux/actions";
-import { useParams } from "react-router-dom";
 
 //components
 import { Modal, Button, Field } from "decentraland-ui";
@@ -26,6 +25,7 @@ const Transfer = ({ transferOpen, transfer, balances, messages }) => {
   const { from } = transfer;
   const { to, amount } = state;
 
+  //Error control begins
   const amountError = amount > balances[from] || parseInt(amount) < 0;
 
   const errors = {
@@ -45,6 +45,7 @@ const Transfer = ({ transferOpen, transfer, balances, messages }) => {
       errors.externalError = messages.transaction.value;
     }
   }
+  //End error handling
 
   useEffect(() => {
     setState({ ...defaultState, ...transfer });

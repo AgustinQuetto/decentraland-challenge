@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { ITransactionData } from "../../interfaces";
 
+//Ethers type Transaction with Receipt
 type TransactionResponseReceipt = ethers.Transaction & {
   receipt?: any;
 };
@@ -43,6 +44,7 @@ export const GetHistory = async (
   const provider = new ethers.providers.EtherscanProvider();
   const history = await provider.getHistory(address);
 
+  //include receipt if necessary by extending the transaction response interface
   if (includeReceipt) {
     const receipts = history.map((transaction) =>
       GetTransactionReceipt(transaction.hash)
