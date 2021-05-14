@@ -34,3 +34,6 @@ A company has created a token to manage the finances on its platform. They want 
 - Redux-Saga
 - Ethers.js
 - Decentraland UI
+
+### Demo (.gif)
+![Decentraland Challenge Demo](demo.gif)
