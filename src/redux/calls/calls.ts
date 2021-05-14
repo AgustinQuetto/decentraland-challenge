@@ -5,11 +5,13 @@ type TransactionResponseReceipt = ethers.Transaction & {
   receipt?: any;
 };
 
+//Gets providers accounts
 export const GetAccounts = async (provider): Promise<string[]> => {
   const accounts = await provider.listAccounts();
   return accounts;
 };
 
+//Get accounts balance
 export const GetBalances = async (
   provider,
   addresses: string[]
@@ -21,6 +23,7 @@ export const GetBalances = async (
   return balances;
 };
 
+//Get account balance
 export const GetBalance = async (
   provider,
   address: String
@@ -30,6 +33,7 @@ export const GetBalance = async (
   return balance;
 };
 
+//Gets account history and includes transaction receipt if required
 export const GetHistory = async (
   address: string,
   includeReceipt: boolean
@@ -57,6 +61,7 @@ export const GetHistory = async (
   return history;
 };
 
+//Gets transaction receipt
 export const GetTransactionReceipt = async (
   transactionHash: string
 ): Promise<ethers.providers.TransactionReceipt | object> => {
@@ -68,6 +73,7 @@ export const GetTransactionReceipt = async (
   return {};
 };
 
+//Sends transaction between accounts
 export const sendTransaction = async (
   provider,
   { from, to, amount }: ITransactionData
