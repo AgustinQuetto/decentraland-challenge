@@ -1,5 +1,6 @@
 import { BigNumberish } from "ethers";
 
+//Transaction History
 export interface History {
   blockHash?: string;
   blockNumber?: number;
@@ -14,6 +15,7 @@ export interface History {
   transaction?: object;
 }
 
+//Redux Storage
 export interface IinitStorageState {
   pageLoading: boolean;
   provider: boolean;
@@ -36,6 +38,7 @@ export interface IinitStorageState {
   transferOpen: boolean;
 }
 
+//Transfer
 export interface ITransactionData {
   from: string;
   to: string;
