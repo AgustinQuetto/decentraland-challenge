@@ -12,19 +12,19 @@ A company has created a token to manage the finances on its platform. They want 
 - App.tsx
 - src
 	- components
-	-- Account/Table/Row
-	-- Alert
-	-- Connect
-	-- Transfer
+		- Account/Table/Row
+		-  Alert
+		- Connect
+		- Transfer
 	- pages
-	-- Account
-	-- Accounts
+		- Account
+		- Accounts
 	- redux
-	-- actions
-	-- calls
-	-- reducers
-	-- sagas
-	-- store
+		- actions
+		- calls
+		- reducers
+		- sagas
+		- store
 	- interfaces
 
 ### Main dependencies
