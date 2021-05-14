@@ -17,6 +17,7 @@ import {
 
 const getAppStore = (state) => state.app;
 
+//Initialize ethers.js and get access to Metamask as a provider
 function* initProvider() {
   try {
     if (window.ethereum) {
@@ -38,6 +39,7 @@ function* initProvider() {
   }
 }
 
+//Get all Metamask accounts
 function* getAccounts(payload: any) {
   try {
     const { includeBalances } = payload;
@@ -59,6 +61,7 @@ function* getAccounts(payload: any) {
   }
 }
 
+//Gets account history
 function* getHistory(payload: any) {
   try {
     const { address, includeReceipt } = payload;
@@ -70,6 +73,7 @@ function* getHistory(payload: any) {
   }
 }
 
+//Gets account current balance
 function* getBalance(payload: any) {
   try {
     const { address } = payload;
@@ -84,6 +88,7 @@ function* getBalance(payload: any) {
   }
 }
 
+//Show/hide transfer component state
 function* _transferToggle(payload: any) {
   try {
     const { account, to } = payload;
@@ -93,6 +98,7 @@ function* _transferToggle(payload: any) {
   }
 }
 
+//Send transfer from one account to another
 function* sendTransaction(payload: any) {
   try {
     yield put(
