@@ -1,19 +1,22 @@
+import { FC } from "react";
 import { connect, useDispatch } from "react-redux";
 import { setAlert } from "../../redux/actions";
 
 //components
 import { Modal, Close } from "decentraland-ui";
 
-interface Props {
+type Props = {
   alert: {
     open: boolean;
     title: string;
     content: string;
     customClose: () => {};
   };
-}
+};
 
-const Transfer = ({ alert: { open, title, content, customClose } }: Props) => {
+const Transfer: FC<Props> = ({
+  alert: { open, title, content, customClose },
+}) => {
   const dispatch = useDispatch();
 
   const close = () => {

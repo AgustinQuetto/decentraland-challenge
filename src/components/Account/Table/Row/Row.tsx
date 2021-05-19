@@ -1,16 +1,17 @@
+import { FC } from "react";
 import { ethers } from "ethers";
-import { History } from "../../../../interfaces";
+import { IHistory } from "../../../../interfaces";
 import { Table, Blockie } from "decentraland-ui";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-interface Props {
+type Props = {
   index: number;
-  history: History;
-}
+  history: IHistory;
+};
 
-const Row = ({ index, history }: Props) => {
+const Row: FC<Props> = ({ index, history }) => {
   const {
     value,
     gasPrice,

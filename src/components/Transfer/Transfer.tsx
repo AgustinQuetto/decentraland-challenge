@@ -1,17 +1,20 @@
 import "./Transfer.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { connect, useDispatch } from "react-redux";
 import { transferToggle } from "../../redux/actions";
+import { IMessages, ITransfer, IBalances } from "../../interfaces";
 
 //components
 import { Modal, Button, Field } from "decentraland-ui";
 import { sendTransaction } from "../../redux/actions";
 
-interface State {
+type Props = IMessages & ITransfer & IBalances;
+
+type State = {
   amount: string;
   from: string;
   to: string;
-}
+};
 
 const defaultState = {
   amount: "",
@@ -19,16 +22,28 @@ const defaultState = {
   to: "",
 };
 
-const Transfer = ({ transferOpen, transfer, balances, messages }) => {
+type Errors = {
+  amountError: boolean;
+  canConfirm: boolean | string;
+  invalidTo: boolean;
+  externalError: boolean | string;
+};
+
+const Transfer: FC<Props> = ({
+  transferOpen,
+  transfer,
+  balances,
+  messages,
+}) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<State>({ ...defaultState });
   const { from } = transfer;
   const { to, amount } = state;
 
   //Error control begins
-  const amountError = amount > balances[from] || parseInt(amount) < 0;
+  const amountError = parseInt(amount) > balances[from] || parseInt(amount) < 0;
 
-  const errors = {
+  const errors: Errors = {
     amountError: amountError,
     canConfirm: from && to && amount && !amountError,
     invalidTo: false,

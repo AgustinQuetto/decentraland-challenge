@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { connect } from "react-redux";
 
 //styles
@@ -27,13 +28,13 @@ declare global {
   }
 }
 
-interface State {
+type Props = {
   router: any;
   pageLoading: boolean;
   provider: any;
-}
+};
 
-function App({ router, pageLoading, provider }: State) {
+const App: FC<Props> = ({ router, pageLoading, provider }) => {
   return (
     <ConnectedRouter history={history}>
       <Navbar activePage="marketplace" isFullscreen />
@@ -61,7 +62,8 @@ function App({ router, pageLoading, provider }: State) {
       <Alert />
     </ConnectedRouter>
   );
-}
+};
+
 const mapStateToProps = ({ router, app: { pageLoading, provider } }) => {
   return {
     router,

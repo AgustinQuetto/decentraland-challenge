@@ -1,5 +1,5 @@
 import "./Accounts.css";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getAccounts, transferToggle } from "../../redux/actions";
 import { Link } from "react-router-dom";
@@ -19,16 +19,16 @@ import {
   Row,
 } from "decentraland-ui";
 
-interface Props {
+type Props = {
   accounts: [string];
   balances: { [key: string]: number };
-}
+};
 
-interface State {
+type State = {
   address?: string;
-}
+};
 
-const Accounts = ({ accounts, balances }: Props) => {
+const Accounts: FC<Props> = ({ accounts, balances }) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<State>({});
 

@@ -1,9 +1,9 @@
 import "./Account.css";
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { useParams } from "react-router-dom";
 import { getBalance, getHistory, transferToggle } from "../../redux/actions";
 import { connect, useDispatch } from "react-redux";
-import { History } from "../../interfaces";
+import { IHistory } from "../../interfaces";
 //components
 import {
   Header,
@@ -21,13 +21,13 @@ import {
 } from "decentraland-ui";
 import AccountTableRow from "../../components/Account/Table/Row";
 
-interface Props {
+type Props = {
   accounts: [string];
   balances: { [key: string]: string };
-  history: { [key: string]: [History] };
-}
+  history: { [key: string]: [IHistory] };
+};
 
-const Account = ({ accounts, balances, history }: Props) => {
+const Account: FC<Props> = ({ accounts, balances, history }) => {
   const dispatch = useDispatch();
   const { address } = useParams();
   const addressHistory = history[address] || [];
@@ -98,7 +98,7 @@ const Account = ({ accounts, balances, history }: Props) => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {addressHistory.map((history: History, index) => (
+              {addressHistory.map((history: IHistory, index) => (
                 <AccountTableRow index={index} history={history} key={index} />
               ))}
             </Table.Body>

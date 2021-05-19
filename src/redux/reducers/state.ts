@@ -1,6 +1,6 @@
-import { IinitStorageState } from "../../interfaces";
+import { IInitStorageState } from "../../interfaces";
 
-const initStorageState: IinitStorageState = {
+const initStorageState: IInitStorageState = {
   pageLoading: false,
   provider: false,
   signer: false,

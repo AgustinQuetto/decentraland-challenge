@@ -1,7 +1,7 @@
 import { BigNumberish } from "ethers";
 
 //Transaction History
-export interface History {
+export interface IHistory {
   blockHash?: string;
   blockNumber?: number;
   from?: string;
@@ -16,26 +16,35 @@ export interface History {
 }
 
 //Redux Storage
-export interface IinitStorageState {
-  pageLoading: boolean;
-  provider: boolean;
-  signer: boolean;
-  accounts: string[];
-  balances: { [key: string]: number };
-  history: {};
+export interface IMessages {
   messages: {
     transaction: { status: boolean; value: string };
   };
+}
+
+export interface ITransfer {
+  transferOpen?: boolean;
   transfer: {
     from: string;
     to: string;
   };
+}
+
+export interface IBalances {
+  balances: { [key: string]: number };
+}
+
+export interface IInitStorageState extends IMessages, ITransfer, IBalances {
+  pageLoading: boolean;
+  provider: boolean;
+  signer: boolean;
+  accounts: string[];
+  history: {};
   alert: {
     open: boolean;
     title: string;
     content: string;
   };
-  transferOpen: boolean;
 }
 
 //Transfer

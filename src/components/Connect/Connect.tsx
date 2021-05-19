@@ -1,8 +1,13 @@
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { initProvider } from "../../redux/actions";
 import { LoginModal, LoginModalOptionType } from "decentraland-ui";
 
-const Connect = ({ loading }) => {
+type Props = {
+  loading: boolean;
+};
+
+const Connect: FC<Props> = ({ loading }) => {
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(initProvider());
