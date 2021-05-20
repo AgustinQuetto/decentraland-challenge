@@ -16,6 +16,7 @@ import { Navbar, Page, Footer, Loader } from "decentraland-ui";
 //pages
 import Account from "./pages/Account";
 import Accounts from "./pages/Accounts";
+import Contract from "./pages/Contract";
 
 //components
 import Connect from "./components/Connect";
@@ -53,6 +54,9 @@ const App: FC<Props> = ({ router, pageLoading, provider }) => {
             </Route>
             <Route path="/account/:address">
               <Account />
+            </Route>
+            <Route path="/contracts/:name">
+              <Contract />
             </Route>
           </Switch>
         )}

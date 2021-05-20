@@ -22,13 +22,14 @@ import {
 type Props = {
   accounts: [string];
   balances: { [key: string]: number };
+  signer: any;
 };
 
 type State = {
   address?: string;
 };
 
-const Accounts: FC<Props> = ({ accounts, balances }) => {
+const Accounts: FC<Props> = ({ accounts, balances, signer }) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<State>({});
 
@@ -97,8 +98,15 @@ const Accounts: FC<Props> = ({ accounts, balances }) => {
                     </Card>
                   </Link>
                   <Button basic onClick={() => transfer(account)}>
+                    <Icon name="money" />
                     Transfer
                   </Button>
+                  <Link to="/contracts/token">
+                    <Button basic>
+                      <Icon name="play" />
+                      Execute contract
+                    </Button>
+                  </Link>
                 </div>
               );
             })}
