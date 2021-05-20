@@ -1,9 +1,17 @@
 import { ethers } from "ethers";
 import { ITransactionData } from "../../interfaces";
+import contracts from "../../contracts";
 
 //Ethers type Transaction with Receipt
 type TransactionResponseReceipt = ethers.Transaction & {
   receipt?: any;
+};
+
+export const listAccountsMetamask = async () => {
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  return accounts;
 };
 
 //Gets providers accounts
@@ -15,10 +23,11 @@ export const GetAccounts = async (provider): Promise<string[]> => {
 //Get accounts balance
 export const GetBalances = async (
   provider,
-  addresses: string[]
+  addresses: string[],
+  signer
 ): Promise<string[]> => {
   const balancesPromises = addresses.map((address) =>
-    GetBalance(provider, address)
+    GetBalance(provider, address, signer)
   );
   const balances = await Promise.all(balancesPromises);
   return balances;
@@ -27,11 +36,21 @@ export const GetBalances = async (
 //Get account balance
 export const GetBalance = async (
   provider,
-  address: String
+  address: String,
+  signer
 ): Promise<string> => {
-  const _balance = await provider.getBalance(address);
-  const balance = ethers.utils.formatEther(_balance);
-  return balance;
+  const tokenContractData = contracts.token;
+
+  const contract = new ethers.Contract(
+    tokenContractData.address,
+    tokenContractData.abi,
+    signer
+  );
+  const balance = await contract.balanceOf(address);
+
+  /* const _balance = await provider.getBalance(address);
+  const balance = ethers.utils.formatEther(_balance); */
+  return balance.toString();
 };
 
 //Gets account history and includes transaction receipt if required

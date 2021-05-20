@@ -61,10 +61,11 @@ const Contract: FC<Props> = ({ accounts, signer }) => {
 
   const execute = async () => {
     const amount = prompt("Amount to transfer");
-    const account = accounts[0];
+    const account = prompt("Account to transfer");
     try {
+      console.log({ account, amount });
       const contractExecuted = await contract.transfer(account, amount);
-      alert("Execution success");
+      alert("Execution success. Transfer queued.");
       console.log(contractExecuted);
     } catch (e) {
       console.error(e);

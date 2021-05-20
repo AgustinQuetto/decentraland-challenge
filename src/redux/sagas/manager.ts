@@ -26,6 +26,9 @@ function* initProvider() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
+      /*       const gelAllAccountsFromMetamask = yield calls.listAccountsMetamask();
+      console.log(gelAllAccountsFromMetamask); */
+
       yield all([
         put(setProvider({ provider, signer })),
         put(pageLoading()),
@@ -43,7 +46,7 @@ function* initProvider() {
 function* getAccounts(payload: any) {
   try {
     const { includeBalances } = payload;
-    const { provider } = yield select(getAppStore);
+    const { provider, signer } = yield select(getAppStore);
 
     const accounts = yield call(calls.GetAccounts, provider);
 
@@ -51,7 +54,12 @@ function* getAccounts(payload: any) {
 
     //includes balances if required
     if (includeBalances) {
-      const balances = yield call(calls.GetBalances, provider, accounts);
+      const balances = yield call(
+        calls.GetBalances,
+        provider,
+        accounts,
+        signer
+      );
 
       //Create an object mapped with the account ID to avoid search iterations in rendering
       const balancesByAddress = {};
@@ -80,9 +88,9 @@ function* getHistory(payload: any) {
 function* getBalance(payload: any) {
   try {
     const { address } = payload;
-    const { provider, balances } = yield select(getAppStore);
+    const { provider, balances, signer } = yield select(getAppStore);
 
-    const balance = yield call(calls.GetBalance, provider, address);
+    const balance = yield call(calls.GetBalance, provider, address, signer);
 
     balances[address] = balance;
     yield put(setBalance({ balances }));
