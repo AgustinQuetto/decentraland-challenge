@@ -19,6 +19,7 @@ A company has created a token to manage the finances on its platform. They want 
 	- pages
 		- Account
 		- Accounts
+		- Contract
 	- redux
 		- actions
 		- calls
@@ -26,6 +27,7 @@ A company has created a token to manage the finances on its platform. They want 
 		- sagas
 		- store
 	- interfaces
+	- contracts
 
 ### Main dependencies
 - React
